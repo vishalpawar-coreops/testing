@@ -1,0 +1,11 @@
+feature_engineering:
+  columns_to_drop: 
+    - seller_name
+    - buyer_name
+    - sale_pincode
+  filter:
+    filter_column: "car_model"
+    filter_value: "Kia Seltos"
+  aggregation:
+    group_by_column: "date_sold"
+    target_column: "car_model"

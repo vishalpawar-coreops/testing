@@ -1,0 +1,18 @@
+sarimax_model:
+  data:
+    target_column: 'car_model_count'     
+    train_split: 0.75              
+  model_params:
+    order: [2, 2, 1]               
+    seasonal_order: [2, 1, 0, 30]  
+  plot_params:
+    title: "SARIMAX Model"  
+    xlabel: "Time (Days)"                                            
+    ylabel: "Sales"                                           
+    figsize: [14, 7]                                          
+    colors:
+      train_data: "blue"
+      test_data: "green"
+      train_prediction: "red"
+      test_prediction: "orange"
+  forecast_length: 366   

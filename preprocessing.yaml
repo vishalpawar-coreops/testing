@@ -1,0 +1,7 @@
+mysql:
+  host: "192.168.10.12"
+  user: "kia"
+  password: "Coreops-123"
+  database: "kia_seltos"
+  table_name: "raw_data"
+  port: 3306

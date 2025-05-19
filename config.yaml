@@ -1,0 +1,82 @@
+feature_engineering:
+  config:
+  - feature_engineering.yaml
+  dependencies:
+  - raw_data.csv
+  input:
+    feature_engineering:
+      aggregation:
+        group_by_column: date_sold
+        target_column: car_model
+      columns_to_drop:
+      - seller_name
+      - buyer_name
+      - sale_pincode
+      filter:
+        filter_column: car_model
+        filter_value: Kia Seltos
+  output:
+  - data.csv
+  script:
+  - feature_engineering.py
+preprocessing:
+  config:
+  - preprocessing.yaml
+  input:
+  - mysql:
+      database: kia_seltos
+      host: 192.168.10.12
+      password: Coreops-123
+      port: 3306
+      table_name: raw_data
+      user: kia
+  output:
+  - raw_data.csv
+  script:
+  - preprocessing.py
+stages:
+- preprocessing
+- feature_engineering
+- training
+training:
+  config:
+  - sarimax.yaml
+  dependencies:
+  - data.csv
+  input:
+    sarimax_model:
+      data:
+        target_column: car_model_count
+        train_split: 0.75
+      forecast_length: 366
+      model_params:
+        order:
+        - 7
+        - 3
+        - 5
+        seasonal_order:
+        - 2
+        - 1
+        - 0
+        - 30
+      plot_params:
+        colors:
+          test_data: green
+          test_prediction: orange
+          train_data: blue
+          train_prediction: red
+        figsize:
+        - 14
+        - 7
+        title: SARIMAX Model
+        xlabel: Time (Days)
+        ylabel: Sales
+  output:
+  - train.png
+  - test.png
+  - metrics.json
+  - model.pkl
+  - Dockerfile
+  - app.py
+  script:
+  - sarimax.py
